@@ -1,7 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"github.com/gin-gonic/gin"
+	"log"
+	"rocket-api/app/routers/api"
+)
 
 func main() {
-	fmt.Println("hello rocketApi")
+	router := gin.Default()
+	httpServer := api.SetupRouter(router)
+	log.Println(httpServer.Run(":9001"))
 }
