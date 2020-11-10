@@ -1,0 +1,25 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": "9001"
+  },
+  "mysql": {
+    "host": "115.159.143.253",
+    "port": "3306",
+    "database": "rocket",
+    "user": "root",
+    "password": "root123"
+  },
+  "redis": {
+    "host": "115.159.143.253",
+    "port": "6379",
+    "database": "1",
+    "password": "root123"
+  },
+  "rabbitmq": {
+    "host": "115.159.143.253",
+    "port": "5672",
+    "user": "root",
+    "password": "root123"
+  }
+}
