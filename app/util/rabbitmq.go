@@ -19,7 +19,7 @@ type RabbitMQ struct {
 }
 
 // 消费回调
-type callBack func(body string)
+type callBack func(body []byte)
 
 // 初始化mq
 func NewRabbitMQ(queueName string, routingKey string, exchangeName string, exchangeType string) *RabbitMQ {
@@ -141,7 +141,7 @@ func (r *RabbitMQ) ReceiveSub(consumeCallBack callBack) {
 	go func() {
 		for d := range messges {
 			log.Printf("Received a message: %s", d.Body)
-			consumeCallBack(string(d.Body))
+			consumeCallBack(d.Body)
 		}
 	}()
 
