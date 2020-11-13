@@ -2,7 +2,6 @@ package mq
 
 import (
 	"fmt"
-	"log"
 	"rocket-api/app/entity"
 	"rocket-api/app/util"
 )
@@ -27,14 +26,7 @@ func RegisterConsume() {
 		var user entity.Users
 		util.JsonDecode(body, &user)
 		fmt.Println(user)
-		result := InsertUser(user)
-		if result {
-			log.Printf("【注册用户写入数据失败】\n")
-		}
+		// 新增用户到数据库
+		util.DB.Create(&user)
 	})
-}
-
-// 新增用户到数据库
-func InsertUser(user entity.Users) bool {
-	return util.DB.NewRecord(user)
 }
