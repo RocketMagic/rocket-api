@@ -1,7 +1,7 @@
 {
   "server": {
     "host": "0.0.0.0",
-    "port": "9001"
+    "port": "8081"
   },
   "mysql": {
     "host": "115.159.143.253",
@@ -13,7 +13,7 @@
   "redis": {
     "host": "115.159.143.253",
     "port": "6379",
-    "database": "1",
+    "database": 1,
     "password": "root123"
   },
   "rabbitmq": {

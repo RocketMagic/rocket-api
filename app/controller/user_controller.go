@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"rocket-api/app/constant"
+	"rocket-api/app/entity"
 	"rocket-api/app/request"
 	"rocket-api/app/services"
 	"rocket-api/app/util"
@@ -16,6 +17,21 @@ func Register(context *gin.Context) {
 	var registerInfo request.RegisterParams
 	if err := context.ShouldBind(&registerInfo); err != nil {
 		respInfo := util.RespReturn(constant.RECEIVE_PARAMS_ERR, "", "参数接收错误")
+		context.JSON(http.StatusOK, respInfo)
+		return
+	}
+
+	// 校验邮箱格式
+	if ok := util.CheckEmail(registerInfo.Email); !ok {
+		respInfo := util.RespReturn(constant.RECEIVE_PARAMS_ERR, "", "邮箱格式有误")
+		context.JSON(http.StatusOK, respInfo)
+		return
+	}
+
+	var user entity.Users
+	if res := util.DB.Where("email = ?", registerInfo.Email).First(&user); res.Error == nil {
+		// 邮箱已注册
+		respInfo := util.RespReturn(constant.NO_KNOW_ERR, "", "该邮箱已注册")
 		context.JSON(http.StatusOK, respInfo)
 		return
 	}
@@ -38,5 +54,14 @@ func Register(context *gin.Context) {
 
 // 用户登录
 func Login(context *gin.Context) {
-	context.JSON(http.StatusOK, gin.H{"data": "login"})
+	var userInfo request.RegisterParams
+	if err := context.ShouldBind(&userInfo); err != nil {
+		respInfo := util.RespReturn(constant.RECEIVE_PARAMS_ERR, "", "参数接收错误")
+		context.JSON(http.StatusOK, respInfo)
+		return
+	}
+
+	res := services.UserLogin(userInfo)
+	context.JSON(http.StatusOK, res)
+	return
 }

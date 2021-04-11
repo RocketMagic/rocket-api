@@ -7,8 +7,13 @@ import (
 
 // 初始化路由
 func SetupRouter(router *gin.Engine) *gin.Engine {
-	router.POST("/register", controller.Register)
-	router.POST("/login", controller.Login)
+
+	// 用户
+	router.Group("/user")
+	{
+		router.POST("/register", controller.Register)
+		router.POST("/login", controller.Login)
+	}
 
 	return router
 }
